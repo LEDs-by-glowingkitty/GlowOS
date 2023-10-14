@@ -9,9 +9,26 @@
 
 //Defaults
 #define DEFAULT_CLIENT_SSID "Your_Network"
-#define DEFAULT_AP_SSID     "WLED-AP"
-#define DEFAULT_AP_PASS     "wled1234"
-#define DEFAULT_OTA_PASS    "wledota"
+
+// START changed for GlowOS
+#include "../usermods/GlowOS/glowingkitty_devices.h"
+
+#ifndef DEFAULT_AP_SSID
+ #define DEFAULT_AP_SSID "GlowOS"
+#endif
+#ifndef DEFAULT_AP_PASS
+  #define DEFAULT_AP_PASS "letsglow"
+#endif
+#ifndef DEFAULT_OTA_PASS
+  #define DEFAULT_OTA_PASS "letsglow"
+#endif
+
+// #define DEFAULT_AP_SSID     "WLED-AP"
+// #define DEFAULT_AP_PASS     "wled1234"
+// #define DEFAULT_OTA_PASS    "wledota"
+
+// END changed for GlowOS
+
 #define DEFAULT_MDNS_NAME   "x"
 
 //increase if you need more
@@ -150,6 +167,9 @@
 #define USERMOD_ID_KLIPPER               40     //Usermod Klipper percentage
 #define USERMOD_ID_WIREGUARD             41     //Usermod "wireguard.h"
 #define USERMOD_ID_INTERNAL_TEMPERATURE  42     //Usermod "usermod_internal_temperature.h"
+//START added for GlowOS
+#define USERMOD_ID_GlowOS                43     //Usermod "GlowOS"     
+//END added for GlowOS
 
 //Access point behavior
 #define AP_BEHAVIOR_BOOT_NO_CONN          0     //Open AP when no connection after boot

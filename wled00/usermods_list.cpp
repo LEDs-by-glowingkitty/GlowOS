@@ -11,6 +11,12 @@
  */
 //#include "../usermods/EXAMPLE_v2/usermod_v2_example.h"
 
+// START added for GlowOS
+#ifdef USERMOD_GLOWOS
+  #include "../usermods/GlowOS/glowos.h"
+#endif
+// END added for GlowOS
+
 #ifdef USERMOD_BATTERY
   #include "../usermods/Battery/usermod_v2_Battery.h"
 #endif
@@ -206,6 +212,13 @@ void registerUsermods()
    * \/ \/ \/
    */
   //usermods.add(new MyExampleUsermod());
+  
+  // START added for GlowOS
+  #ifdef USERMOD_GLOWOS
+  usermods.add(new UsermodGlowOS());
+  #endif
+  // END added for GlowOS
+
   #ifdef USERMOD_BATTERY
   usermods.add(new UsermodBattery());
   #endif

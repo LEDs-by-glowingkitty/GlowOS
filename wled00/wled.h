@@ -357,7 +357,11 @@ WLED_GLOBAL byte briMultiplier _INIT(100);          // % of brightness to set (t
 
 // User Interface CONFIG
 #ifndef SERVERNAME
-WLED_GLOBAL char serverDescription[33] _INIT("WLED");  // Name of module - use default
+// START changed for GlowOS
+WLED_GLOBAL char serverDescription[33] _INIT(DEFAULT_AP_SSID);  // Name of module - use default
+// WLED_GLOBAL char serverDescription[33] _INIT("WLED");  // Name of module - use default
+// END changed for GlowOS
+
 #else
 WLED_GLOBAL char serverDescription[33] _INIT(SERVERNAME);  // use predefined name
 #endif

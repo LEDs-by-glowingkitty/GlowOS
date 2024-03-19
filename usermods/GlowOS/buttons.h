@@ -120,9 +120,9 @@ private:
           } else if (bri > 235 && bri < 255){
               bri = 255;
               leds.setBrightness(bri);
-              Serial.println("maximum brightness reached");
+              DEBUG_PRINTLN(F("maximum brightness reached"));
           }
-          Serial.println(bri);
+          DEBUG_PRINTLN(F(bri));
           lastduration = dur;
       }
   }
@@ -136,9 +136,9 @@ private:
           } else if (bri < 25 && bri > 5){
               bri = 5;
               leds.setBrightness(bri);
-              Serial.println("minimum brightness reached");
+              DEBUG_PRINTLN(F("minimum brightness reached"));
           }
-          Serial.println(bri);
+          DEBUG_PRINTLN(F(bri));
           lastduration = dur;
       }
   }

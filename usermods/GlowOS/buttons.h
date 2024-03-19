@@ -17,6 +17,8 @@ private:
 
     bool leftswitch = false;
     bool rightswitch = false;
+    int pressCount = 0;
+    unsigned long lastButtonPressTime = 0;
 
     /////////////////////////////////////////////
     //// Setup: Action Button
@@ -81,29 +83,65 @@ private:
       applyPreset(nextPreset, 0);
     }
 
+    void actionPreviousPreset(){
+      DEBUG_PRINTLN(F("Action: Previous preset"));
+      byte nextPreset = currentPreset;
+      for (;;) {
+        nextPreset--;
+
+        String dummy = "";
+        if (getPresetName(nextPreset, dummy)) {
+          // preset exists
+          break;
+        }
+        
+        if (nextPreset == currentPreset || nextPreset < currentPreset - 10) {
+          // no more presets
+          nextPreset = 1;
+          break;
+        }
+      };
+
+      DEBUG_PRINTLN(F("Previous preset..."));
+      applyPreset(nextPreset, 0);
+    }
+
     void actionDefaultPreset(){
       DEBUG_PRINTLN(F("Action: Default preset"));
       applyPreset(1, 0);
     }
 
-    void actionChangeBrightness(long dur){
-      DEBUG_PRINTLN(F("actionChangeBrightness"));
+    void actionIncreaseBrightness(long dur){
+      DEBUG_PRINTLN(F("actionIncreaseBrightness"));
       if ((lastduration != dur) && (dur % 500 == 0)){
-        if (bri<20){
-          brightnessDirection = false;
-        }
-        else if (bri>235){
-          brightnessDirection = true;
-        }
-        if (brightnessDirection){
-          leds.setBrightness(bri-20);
-        } else {
-          leds.setBrightness(bri+20);
-        }
-        DEBUG_PRINTLN(bri);
-        lastduration = dur;
+          if (bri <= 235){
+              bri += 20;
+              leds.setBrightness(bri);
+          } else if (bri > 235 && bri < 255){
+              bri = 255;
+              leds.setBrightness(bri);
+              Serial.println("maximum brightness reached");
+          }
+          Serial.println(bri);
+          lastduration = dur;
       }
-    }
+  }
+
+    void actionDecreaseBrightness(long dur){
+      DEBUG_PRINTLN(F("actionDecreaseBrightness"));
+      if ((lastduration != dur) && (dur % 500 == 0)){
+          if (bri >= 25){
+              bri -= 20;
+              leds.setBrightness(bri);
+          } else if (bri < 25 && bri > 5){
+              bri = 5;
+              leds.setBrightness(bri);
+              Serial.println("minimum brightness reached");
+          }
+          Serial.println(bri);
+          lastduration = dur;
+      }
+  }
 
 
 public:
@@ -156,15 +194,20 @@ public:
 
       if (isButtonPressed(b)) { //pressed
         long dur = now - buttonPressedTime[b];
+        lastButtonPressTime = now;
+
         if (buttonPressedBefore[b] && dur > 600){
-          actionChangeBrightness(dur);
+          if (pressCount == 1) {
+            actionDecreaseBrightness(dur);
+          } else if (pressCount >= 2) {
+            actionIncreaseBrightness(dur);
+          }
         }
         if (!buttonPressedBefore[b]) buttonPressedTime[b] = now;
         buttonPressedBefore[b] = true;
 
       } else if (!isButtonPressed(b) && buttonPressedBefore[b]) { //released
         long dur = now - buttonPressedTime[b];
-        brightnessDirection = true;
         if (dur < 50) {
           buttonPressedBefore[b] = false; 
           return false;
@@ -179,6 +222,7 @@ public:
             actionNextPreset();
           } else {
             buttonWaitTime[b] = now;
+            pressCount += 1;
           }
         }
         
@@ -193,6 +237,11 @@ public:
         buttonWaitTime[b] = 0;
         toggleOnOff();
         stateUpdated(CALL_MODE_BUTTON);
+      }
+
+      // if 350ms elapsed since last button press, reset pressCount
+      if (now - lastButtonPressTime > 350) {
+        pressCount = 0;
       }
 
       return handled;

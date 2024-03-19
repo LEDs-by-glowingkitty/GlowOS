@@ -51,8 +51,6 @@
     #define SR_DMTYPE 5
     #define I2S_WSPIN 14
     #define I2S_CKPIN 15
-    #define I2S_WSPIN 14
-    #define I2S_CKPIN 15
     
     // Setup battery
     #define BATT_IC
@@ -380,7 +378,7 @@
 
     // Setup WiFi
     #define DEFAULT_AP_SSID "GlowSign"
-    #define WIFI_OFF_ON_BOOT
+    // #define WIFI_OFF_ON_BOOT
 
     // Setup microphone
     #define USERMOD_AUDIOREACTIVE
@@ -512,12 +510,32 @@
     #define USB_PD_AMPS_DETECTION 6
     #define USB_PD_VOLTS_DETECTION 7
 
+    // Setup WiFi
+    // #define DEFAULT_AP_SSID "GlowLight"
+#endif
+
+#ifdef GLOWLIGHT_GLOWTOWER_3_0
+    // Setup the LED settings
+    #define DATA_PINS 16,17,18,19
+    // #define PIXEL_COUNTS 15, 15, 15, 15
+    // #define ABL_MILLIAMPS_DEFAULT 3300
+    // #define STATUS_LED_DATA 40
+
+    // Setup the buttons
+    #define ACTION_BTN_PIN 34
+    #define ACTION_BTN_PIN_STATE_IF_PRESSED 1
+
+    // Setup USB-C PD
+    #define USB_PD_AMPS_DETECTION 35
+    #define USB_PD_VOLTS_DETECTION 36
+
     // Setup microphone
-    // #define USERMOD_AUDIOREACTIVE
-    // #define SR_DMTYPE 5
-    // #define I2S_WSPIN 12
-    // #define I2S_CKPIN 13
-    // #define I2S_SDPIN 14
+    #define USERMOD_AUDIOREACTIVE
+    // #define I2S_USE_RIGHT_CHANNEL
+    #define SR_DMTYPE 5
+    #define I2S_WSPIN 23
+    #define I2S_CKPIN 25
+    #define I2S_SDPIN 26
 
     // Setup WiFi
     // #define DEFAULT_AP_SSID "GlowLight"

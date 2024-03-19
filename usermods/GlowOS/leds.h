@@ -84,7 +84,4 @@ public:
     void setup(){ // function to set up the LEDs
       setupPowerMOSFETS(); // call the setupPowerMOSFETS function
     }
-
-    void setup_status_led(){ // function to setup the status LED. Checks first if Status LED is already setup
-    }
 };

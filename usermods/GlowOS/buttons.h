@@ -17,7 +17,7 @@ private:
 
     bool leftswitch = false;
     bool rightswitch = false;
-    int pressCount = 0;
+    int pressCount = 1;
     unsigned long lastButtonPressTime = 0;
 
     /////////////////////////////////////////////
@@ -197,9 +197,9 @@ public:
         lastButtonPressTime = now;
 
         if (buttonPressedBefore[b] && dur > 600){
-          if (pressCount == 0) {
+          if (pressCount == 1) {
             actionDecreaseBrightness(dur);
-          } else if (pressCount >= 1) {
+          } else if (pressCount == 2) {
             actionIncreaseBrightness(dur);
           }
         }
@@ -241,7 +241,7 @@ public:
 
       // if 350ms elapsed since last button press, reset pressCount
       if (now - lastButtonPressTime > 350) {
-        pressCount = 0;
+        pressCount = 1;
       }
 
       return handled;

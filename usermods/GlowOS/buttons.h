@@ -197,9 +197,9 @@ public:
         lastButtonPressTime = now;
 
         if (buttonPressedBefore[b] && dur > 600){
-          if (pressCount == 1) {
+          if (pressCount == 0) {
             actionDecreaseBrightness(dur);
-          } else if (pressCount >= 2) {
+          } else if (pressCount >= 1) {
             actionIncreaseBrightness(dur);
           }
         }

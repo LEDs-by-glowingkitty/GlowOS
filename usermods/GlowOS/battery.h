@@ -1,4 +1,5 @@
 #pragma once
+#include "wled.h"
 #include "battery_settings.h"
 #ifdef BATT_IC_RT9471D
 #include "battery_ics.h"

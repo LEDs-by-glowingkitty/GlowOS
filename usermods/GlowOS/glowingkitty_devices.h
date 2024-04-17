@@ -533,8 +533,9 @@
     #define USERMOD_AUDIOREACTIVE
     // #define I2S_USE_RIGHT_CHANNEL
     #define SR_DMTYPE 5
-    #define I2S_WSPIN 23
-    #define I2S_CKPIN 25
+    #define I2S_WSPIN 25
+    #define I2S_CKPIN 23
+    // TODO why does switching WS and CK pin fixes the not working microphone?
     #define I2S_SDPIN 26
 
     // Setup WiFi

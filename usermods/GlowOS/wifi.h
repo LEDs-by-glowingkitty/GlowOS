@@ -18,66 +18,35 @@ class GlowOSWiFi {
 
     void turnOffOnboot(){
       #ifdef WIFI_OFF_ON_BOOT
-      // IMPROV. CHANGE THIS
       if (justbooted && WiFi.getMode() != WIFI_OFF){
-        if (WiFi.getMode() == WIFI_STA){
-          defaultwifimode = "WIFI_STA";
-        } else if (WiFi.getMode() == WIFI_AP){
-          defaultwifimode = "WIFI_AP";
-        } else {
-          defaultwifimode = "WIFI_AP_STA";
-        }
-        
-        justbooted = false;
-        DEBUG_PRINTLN(F("Just booted. Turn WiFi off to save power."));
-        Serial.println("Just booted. Turn WiFi off to save power.");
-        // turn wifi off on boot
         WiFi.mode(WIFI_OFF);
-
+        DEBUG_PRINTLN(F("WiFi turned off to save power."));
+        Serial.println("WiFi turned off to save power.");
+        justbooted = false;
       }
       #endif
-      
-      // if (justbooted && WiFi.getMode() != WIFI_OFF){
-      //   Serial.println("Just booted. wifi_on state: " + String(wifi_on));
-      //   // check if wifi_on is false
-      //   if (wifi_on == false){
-      //     // if so, turn wifi off
-      //     WiFi.mode(WIFI_OFF);
-      //     DEBUG_PRINTLN(F("Just booted. Turn WiFi off to save power."));
-      //     Serial.println("Just booted. Turn WiFi off to save power.");
-      //   }
-
-      //   // else if set to true, do nothing
-      //   justbooted = false;
-      // }
-
-      
     }
 
-    void turnOnOff(){
-      DEBUG_PRINTLN(F("Turn off/on WiFi"));
-      Serial.println("Turn off/on WiFi");
-      if(wifi_on==false){
+    void toggleWifi(){
+      DEBUG_PRINTLN(F("Toggle WiFi"));
+      Serial.println("Toggle WiFi");
+      if(WiFi.getMode() == WIFI_OFF){
         Serial.println("Turn wifi on");
         DEBUG_PRINTLN(F("Turn wifi on"));
         // TODO: show LED animation for "Wifi on"
 
-        // write "wifi_on" == true to config
-        wifi_on = true;
-        serializeConfig();
-        Serial.println(doSerializeConfig);
-        // reboot
+        // turn wifi on and start hotspot
+        WiFi.mode(WIFI_AP);
+        // TODO: set the SSID and password for the hotspot
+        // WiFi.softAP(apSSID, apPass);
 
       } else {
         Serial.println("Turn wifi off");
         DEBUG_PRINTLN(F("Turn wifi off"));
         // TODO: show LED animation for "Wifi off"
         
-        // write "wifi_on" == false to config
-        wifi_on = false;
-        serializeConfig();
-        Serial.println(doSerializeConfig);
-        // reboot
+        // turn wifi off
+        WiFi.mode(WIFI_OFF);
       }
     }
 
